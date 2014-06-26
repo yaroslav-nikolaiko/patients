@@ -5,14 +5,15 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by yaroslav on 6/26/14.
- */
+* Created by yaroslav on 6/26/14.
+*/
 @Entity
 @Table(name = "DIAGNOSIS")
 public class Diagnosis {
     @Id
     @GeneratedValue
     private Long id;
+    @Temporal(TemporalType.TIMESTAMP)
     private Date date;
     private String text;
     @ManyToMany

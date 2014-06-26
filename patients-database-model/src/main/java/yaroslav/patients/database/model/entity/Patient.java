@@ -8,8 +8,8 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by yaroslav on 6/26/14.
- */
+* Created by yaroslav on 6/26/14.
+*/
 @Entity
 @Table(name = "PATIENT")
 public class Patient {
@@ -23,6 +23,7 @@ public class Patient {
     private Integer age;
     @Enumerated(EnumType.STRING)
     private Sex sex;
+    @Temporal(TemporalType.DATE)
     private Date birthDay;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "PATIENT_FK")

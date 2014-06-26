@@ -5,8 +5,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 /**
- * Created by yaroslav on 6/26/14.
- */
+* Created by yaroslav on 6/26/14.
+*/
 @Entity
 public class Drug {
     @Id

@@ -1,9 +1,11 @@
 package yaroslav.patients.database.model.service;
 
-import static org.junit.Assert.*;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import static org.junit.Assert .*;
+
 import yaroslav.patients.database.model.entity.User;
 
 import javax.persistence.EntityManager;
