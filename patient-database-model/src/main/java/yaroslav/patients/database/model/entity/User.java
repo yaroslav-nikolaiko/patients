@@ -1,6 +1,7 @@
 package yaroslav.patients.database.model.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,7 +11,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "\"USER\"")
-@NamedQueries({@NamedQuery(name=User.FIND_BY_LOGIN_AND_PASSWORD, query = "SELECT u from User u WHERE u.login=:login AND u.password=:password"),
+@NamedQueries({@NamedQuery(name=User.FIND_BY_LOGIN_AND_PASSWORD, query = "SELECT u from User u WHERE u.login=?1 AND u.password=?2"),
                @NamedQuery(name=User.COUNT_BY_LOGIN, query = "SELECT COUNT(u.login) FROM User u WHERE u.login=:login")})
 public class User {
     public static final String FIND_BY_LOGIN_AND_PASSWORD = "User.findByLoginAndPassword";
@@ -25,6 +26,18 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "USER_FK")
     private List<Patient> patients;
+
+    public User() {
+        patients = new ArrayList<>();
+    }
+
+    public void addPatient(Patient patient) {
+        patients.add(patient);
+    }
+
+    /********************************************************************************************
+     *                                              Getters and Setters
+     ********************************************************************************************/
 
     public Long getId() {
         return id;

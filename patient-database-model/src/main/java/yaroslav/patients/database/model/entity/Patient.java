@@ -4,6 +4,7 @@ package yaroslav.patients.database.model.entity;
 import yaroslav.patients.database.model.utils.Sex;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -12,7 +13,12 @@ import java.util.List;
 */
 @Entity
 @Table(name = "PATIENT")
+@NamedQueries({@NamedQuery(name=Patient.FIND_BY_FIRST_NAME, query = "SELECT p FROM Patient p WHERE p.firstName=?1"),
+               @NamedQuery(name=Patient.FIND_BY_FIRST_AND_LAST_NAME, query = "SELECT p FROM Patient p WHERE p.firstName=?1 AND p.lastName=?2")})
 public class Patient {
+    public static final String FIND_BY_FIRST_NAME = "FIND_BY_FIRST_NAME";
+    public static final String FIND_BY_FIRST_AND_LAST_NAME = "FIND_BY_FIRST_AND_LAST_NAME";
+
     @Id
     @GeneratedValue
     private Long id;
@@ -27,7 +33,24 @@ public class Patient {
     private Date birthDay;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "PATIENT_FK")
-    private List<Diagnosis> diagnosises;
+    private List<Diagnose> diagnosises;
+
+    public Patient() {
+        diagnosises = new ArrayList<>();
+    }
+
+    public void addDiagnose(Diagnose diagnose){
+        diagnosises.add(diagnose);
+    }
+
+    public void removeDiagnose(Diagnose diagnose) {
+        diagnosises.remove(diagnose);
+    }
+
+
+    /********************************************************************************************
+     *                                              Getters and Setters
+     ********************************************************************************************/
 
     public Long getId() {
         return id;
@@ -77,11 +100,11 @@ public class Patient {
         this.birthDay = birthDay;
     }
 
-    public List<Diagnosis> getDiagnosises() {
+    public List<Diagnose> getDiagnosises() {
         return diagnosises;
     }
 
-    public void setDiagnosises(List<Diagnosis> diagnosises) {
+    public void setDiagnosises(List<Diagnose> diagnosises) {
         this.diagnosises = diagnosises;
     }
 }

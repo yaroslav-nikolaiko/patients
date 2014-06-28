@@ -4,7 +4,7 @@
     <persistence-unit name="PatientsTest" transaction-type="RESOURCE_LOCAL">
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
         <class>yaroslav.patients.database.model.entity.User</class>
-        <class>yaroslav.patients.database.model.entity.Diagnosis</class>
+        <class>yaroslav.patients.database.model.entity.Diagnose</class>
         <class>yaroslav.patients.database.model.entity.Drug</class>
         <class>yaroslav.patients.database.model.entity.Patient</class>
         <properties>

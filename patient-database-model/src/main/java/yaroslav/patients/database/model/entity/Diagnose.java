@@ -9,7 +9,7 @@ import java.util.List;
 */
 @Entity
 @Table(name = "DIAGNOSIS")
-public class Diagnosis {
+public class Diagnose {
     @Id
     @GeneratedValue
     private Long id;
