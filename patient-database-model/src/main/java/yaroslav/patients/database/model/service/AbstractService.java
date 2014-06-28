@@ -18,15 +18,15 @@ public abstract class AbstractService<T> {
         this.entityClass = entityClass;
     }
 
-    void initEntityManager(EntityManager em){
-        this.em = em;
+    public T find(Long id) {
+        return em.find(entityClass, id);
     }
 
     public T update(@NotNull T entity) {
         return em.merge(entity);
     }
 
-    public void add(@NotNull T entity){
+    public void addToDataBase(@NotNull T entity){
         em.persist(entity);
     }
 
@@ -45,6 +45,10 @@ public abstract class AbstractService<T> {
         for (int i=0; i<param.length; i++)
             query.setParameter(i+1, param[i]);
         return query;
+    }
+
+    void initEntityManager(EntityManager em){
+        this.em = em;
     }
 
 }

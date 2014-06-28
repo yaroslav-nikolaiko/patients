@@ -35,6 +35,10 @@ public class User {
         patients.add(patient);
     }
 
+    public void removePatient(Patient patient) {
+        patients.remove(patient);
+    }
+
     /********************************************************************************************
      *                                              Getters and Setters
      ********************************************************************************************/

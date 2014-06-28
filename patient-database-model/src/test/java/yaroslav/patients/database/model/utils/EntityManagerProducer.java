@@ -1,4 +1,4 @@
-package yaroslav.patients.database.model.service;
+package yaroslav.patients.database.model.utils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

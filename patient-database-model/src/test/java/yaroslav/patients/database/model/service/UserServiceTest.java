@@ -5,10 +5,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert .*;
-import static yaroslav.patients.database.model.service.EntityManagerProducer.*;
+import static yaroslav.patients.database.model.utils.EntityManagerProducer.*;
 
+import org.junit.experimental.categories.Category;
 import yaroslav.patients.database.model.entity.Patient;
 import yaroslav.patients.database.model.entity.User;
+import yaroslav.patients.database.model.utils.IntegrationTest;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -17,6 +19,7 @@ import javax.persistence.PersistenceException;
 /**
  * Created by yaroslav on 6/26/14.
  */
+@Category(IntegrationTest.class)
 public class UserServiceTest {
     private EntityManager em;
     private EntityTransaction tx;
@@ -46,7 +49,7 @@ public class UserServiceTest {
         User user = userMock();
 
         tx.begin();
-        userService.add(user);
+        userService.addToDataBase(user);
         em.flush();
 
         assertNotNull(user.getId());
@@ -55,10 +58,10 @@ public class UserServiceTest {
     @Test(expected = PersistenceException.class)
     public void addUserWithExistedNameTest(){
         tx.begin();
-        userService.add(userMock());
+        userService.addToDataBase(userMock());
         em.flush();
 
-        userService.add(userMock());
+        userService.addToDataBase(userMock());
         em.flush();
     }
 
@@ -75,7 +78,7 @@ public class UserServiceTest {
         User user = userMock();
         String password = user.getPassword();
         tx.begin();
-        userService.add(user);
+        userService.addToDataBase(user);
         em.flush();
 
         user.setLogin("Mike");
@@ -89,7 +92,7 @@ public class UserServiceTest {
     public void shouldAddPatientTest() throws Exception{
         User user = userMock();
         tx.begin();
-        userService.add(user);
+        userService.addToDataBase(user);
         em.flush();
 
         user.addPatient(patientMock());

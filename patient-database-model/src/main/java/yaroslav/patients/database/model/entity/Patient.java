@@ -47,6 +47,10 @@ public class Patient {
         diagnosises.remove(diagnose);
     }
 
+    public boolean existDiagnose(Diagnose diagnose){
+        return diagnosises.contains(diagnose);
+    }
+
 
     /********************************************************************************************
      *                                              Getters and Setters
