@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+
+</h:head>
+<h:body>
+    <ui:composition>
+        <h:form>
+            <p:growl id="growl-add-patient" sticky="true" showDetail="true" life="3000"/>
+
+            <p:dialog header="Add Patient" widgetVar="add-patient-dlg" resizable="false">
+                <h:panelGrid columns="2" cellpadding="5">
+                    <h:outputLabel for="firstName" value="First Name:"/>
+                    <p:inputText id="firstName" value="#{patientBean.patient.firstName}"
+                                 required="true" label="first name"/>
+
+                    <h:outputLabel for="lastNmae" value="Last Name:"/>
+                    <p:inputText id="lastNmae" value="#{patientBean.patient.lastName}"
+                                 required="true" label="last name"/>
+
+                    <h:outputLabel for="sex" value="Sex:"/>
+                    <h:selectOneMenu id="sex" value="#{patientBean.patient.sex}" style="width:100%">
+                        <f:selectItems value="#{sessionController.availableSex}" />
+                    </h:selectOneMenu>
+
+                    <h:outputLabel for="birthday" value="Birth Day:"/>
+                    <p:calendar id="birthday"  value="#{patientBean.patient.birthDay}" navigator="true" locale="en" >
+
+                    </p:calendar>
+
+                    <f:facet name="footer">
+                        <p:commandButton value="Submit" update="growl-add-patient @([id$=main-table]) " process="@form"
+                                         actionListener="#{sessionController.addPatient}"
+                                         oncomplete="handleDialog(xhr, status, args, 'add-patient-dlg')"/>
+                        <p:messages/>
+
+                    </f:facet>
+
+                </h:panelGrid>
+
+            </p:dialog>
+        </h:form>
+
+    </ui:composition>
+
+</h:body>
+</html>

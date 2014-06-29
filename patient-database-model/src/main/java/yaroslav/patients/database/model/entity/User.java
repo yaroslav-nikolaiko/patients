@@ -31,12 +31,21 @@ public class User {
         patients = new ArrayList<>();
     }
 
-    public void addPatient(Patient patient) {
+    public void addPatient(Patient patient, int localId) {
+        //patientsCount++;
         patients.add(patient);
+        patient.setLocalId(localId);
     }
 
     public void removePatient(Patient patient) {
         patients.remove(patient);
+    }
+
+    public int getMaxPatientLocalId(){
+        int localId = 0;
+        for (Patient patient : patients)
+            localId = patient.getLocalId() > localId ? patient.getLocalId():localId;
+        return localId;
     }
 
     /********************************************************************************************

@@ -95,7 +95,7 @@ public class UserServiceTest {
         userService.addToDataBase(user);
         em.flush();
 
-        user.addPatient(patientMock());
+        user.addPatient(patientMock(), 1);
         em.flush();
 
         assertNotNull(user.getPatients().get(0).getId());

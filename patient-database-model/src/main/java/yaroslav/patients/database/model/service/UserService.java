@@ -7,6 +7,7 @@ import yaroslav.patients.database.model.entity.User;
 import yaroslav.patients.database.model.interceptor.ValidationHandlerEjb;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -36,7 +37,8 @@ public class UserService extends AbstractService<User> {
     }
 
     public void addPatient(User user, Patient patient){
-        user.addPatient(patient);
+        int localId = user.getMaxPatientLocalId();
+        user.addPatient(patient, ++localId);
         em.persist(patient);
         update(user);
     }

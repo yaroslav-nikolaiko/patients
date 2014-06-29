@@ -13,16 +13,16 @@
         <p:panel header="Sign Up">
             <p:messages autoUpdate="true"/>
 
-            <h:panelGrid id="grid" columns="3" cellpadding="5">
+            <p:panelGrid id="grid" columns="3" cellpadding="5">
                 <h:outputLabel for="name" value="Name:" style="font-weight:bold"/>
-                <p:inputText  id="name" value="#{userBean.user.login}"
+                <p:inputText  id="name" value="#{userBean.user.login}" validator="#{userBean.validateLogin}"
                               required="true" label="Name" />
                 <p:message for="name" />
 
                 <h:outputLabel for="password" value="Password:" style="font-weight:bold"/>
-                <p:inputText id="password" value="#{userBean.user.password}"  required="true" label="Password"/>
+                <p:password id="password" value="#{userBean.user.password}"  required="true" label="Password"/>
                 <p:message for="password" />
-            </h:panelGrid>
+            </p:panelGrid>
 
             <p:commandButton value="Register" icon="ui-icon-check" style="margin-right:10px"
                              action="#{sessionController.singUp}" ajax="false"/>

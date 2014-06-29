@@ -1,6 +1,7 @@
 package yaroslav.patients.database.model.entity;
 
-
+import org.joda.time.LocalDate;
+import org.joda.time.Years;
 import yaroslav.patients.database.model.utils.Sex;
 
 import javax.persistence.*;
@@ -13,20 +14,19 @@ import java.util.List;
 */
 @Entity
 @Table(name = "PATIENT")
-@NamedQueries({@NamedQuery(name=Patient.FIND_BY_FIRST_NAME, query = "SELECT p FROM Patient p WHERE p.firstName=?1"),
-               @NamedQuery(name=Patient.FIND_BY_FIRST_AND_LAST_NAME, query = "SELECT p FROM Patient p WHERE p.firstName=?1 AND p.lastName=?2")})
+@NamedQueries({@NamedQuery(name=Patient.MAX_LOCAL_ID, query = "SELECT MAX(p.localId) FROM Patient p")})
 public class Patient {
-    public static final String FIND_BY_FIRST_NAME = "FIND_BY_FIRST_NAME";
-    public static final String FIND_BY_FIRST_AND_LAST_NAME = "FIND_BY_FIRST_AND_LAST_NAME";
+    public static final String MAX_LOCAL_ID = "MAX_LOCAL_ID";
 
     @Id
     @GeneratedValue
     private Long id;
     @Column(nullable = false)
+    private Integer localId;
+    @Column(nullable = false)
     private String firstName;
     @Column(nullable = false)
     private String lastName;
-    private Integer age;
     @Enumerated(EnumType.STRING)
     private Sex sex;
     @Temporal(TemporalType.DATE)
@@ -37,6 +37,10 @@ public class Patient {
 
     public Patient() {
         diagnosises = new ArrayList<>();
+    }
+
+    public Patient(Integer localId){
+        this.localId = localId;
     }
 
     public void addDiagnose(Diagnose diagnose){
@@ -51,6 +55,11 @@ public class Patient {
         return diagnosises.contains(diagnose);
     }
 
+    public int getAge() {
+        if(birthDay!=null)
+            return Years.yearsBetween(new LocalDate(birthDay),new LocalDate()).getYears();
+        return 0;
+    }
 
     /********************************************************************************************
      *                                              Getters and Setters
@@ -80,14 +89,6 @@ public class Patient {
         this.lastName = lastName;
     }
 
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
-    }
-
     public Sex getSex() {
         return sex;
     }
@@ -110,5 +111,13 @@ public class Patient {
 
     public void setDiagnosises(List<Diagnose> diagnosises) {
         this.diagnosises = diagnosises;
+    }
+
+    public Integer getLocalId() {
+        return localId;
+    }
+
+    public void setLocalId(Integer localId) {
+        this.localId = localId;
     }
 }

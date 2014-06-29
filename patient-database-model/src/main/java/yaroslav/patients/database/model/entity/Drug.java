@@ -1,14 +1,14 @@
 package yaroslav.patients.database.model.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
 * Created by yaroslav on 6/26/14.
 */
 @Entity
+@NamedQueries({@NamedQuery(name=Drug.ALL_DRUGS, query = "SELECT d FROM Drug d")})
 public class Drug {
+    public static final String ALL_DRUGS = "ALL_DRUGS";
     @Id
     @GeneratedValue
     private Long id;

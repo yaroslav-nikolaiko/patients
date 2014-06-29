@@ -2,12 +2,14 @@ package yaroslav.patients.database.model.service;
 
 import yaroslav.patients.database.model.entity.Diagnose;
 import yaroslav.patients.database.model.entity.Patient;
+import yaroslav.patients.database.model.entity.User;
 import yaroslav.patients.database.model.exception.EJBIllegalArgumentException;
 import yaroslav.patients.database.model.interceptor.ValidationHandlerEjb;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -22,14 +24,6 @@ public class PatientService extends AbstractService<Patient> {
         super(Patient.class);
     }
 
-    public List<Patient> findByName(String name) {
-        return resultList(Patient.FIND_BY_FIRST_NAME, name);
-    }
-
-    public List<Patient> findByName( String firstName, String lastName) {
-        return resultList(Patient.FIND_BY_FIRST_AND_LAST_NAME, firstName, lastName);
-    }
-
     public void addDiagnose(Patient patient, Diagnose diagnose) throws EJBIllegalArgumentException{
         if(patient.existDiagnose(diagnose))
             throw new EJBIllegalArgumentException(String.format("Diagnose %s already exist",diagnose.getText()),
@@ -42,6 +36,11 @@ public class PatientService extends AbstractService<Patient> {
     public void removeDiagnose(Patient patient, Diagnose diagnose){
         patient.removeDiagnose(diagnose);
         update(patient);
+    }
+
+    public int maxLocalId(){
+        Query query = em.createNamedQuery(Patient.MAX_LOCAL_ID);
+        return (int) query.getSingleResult();
     }
 
 

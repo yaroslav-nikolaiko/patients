@@ -20,6 +20,17 @@
         }
     </script>
 
+    <script type="text/javascript">
+        function handleDialog(xhr, status, args, dialogName) {
+            if(args.validationFailed || !args.crossValidation) {
+                PF(dialogName).jq.effect("shake", {times:5}, 100);
+            }
+            else {
+                PF(dialogName).hide();
+            }
+        }
+    </script>
+
 
     <f:facet name="first">
         <meta http-equiv="X-UA-Compatible" content="EmulateIE8" />
@@ -28,58 +39,80 @@
     </f:facet>
 
 
-    <style type="text/css">
-        .ui-layout-north {
-            z-index:20 !important;
-            overflow:visible !important;;
-        }
-
-        .ui-layout-north .ui-layout-unit-content {
-            overflow:visible !important;
-        }
-    </style>
-
-
-
 </h:head>
 
 <h:body>
     <h:form>
 
         <h:form>
-            <p:panelGrid columns="2">
+            <p:panelGrid columns="3">
                 <p:button value="SignUp" outcome="signUp.xhtml"/>
                 <p:commandButton value="Login" onclick="PF('dlg').show();"/>
+                <p:commandButton value="Add Drug To Data Base" onclick="PF('add-drug-dlg').show();"/>
             </p:panelGrid>
         </h:form>
 
         <h:form>
-            <p:growl id="growl" sticky="true" showDetail="true" life="3000"/>
+            <p:dataTable id="main-table" var="p" value="#{sessionController.user.patients}" selectionMode="multiple"
+                         selection="#{sessionController.selectedPatients}" rowKey="#{p.localId}"
+                         filteredValue="#{sessionController.filteredPatients}">
+                <f:facet name="header">
+                    Patients List <p/>
+                    <p:commandButton value="Add Patient" onclick="PF('add-patient-dlg').show()" immediate="true"/>
+                </f:facet>
 
-            <p:dialog header="Login" widgetVar="dlg" resizable="false">
-                <h:panelGrid columns="2" cellpadding="5">
-                    <h:outputLabel for="username" value="Username:"/>
-                    <p:inputText id="username" value="#{userBean.user.login}" validator="#{userBean.validateLogin}"
-                                        required="true" label="username"/>
+                <p:column headerText="Id" sortBy="#{p.localId}" filterMatchMode="startsWith">
+                    <h:outputText value="#{p.localId}" />
+                </p:column>
+                <p:column headerText="Name" sortBy="#{p.firstName}" filterMatchMode="startsWith">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{p.firstName}" /></f:facet>
+                        <f:facet name="input"><p:inputText  value="#{p.firstName}" style="width:96%"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column headerText="Last Name" sortBy="#{p.lastName}" filterMatchMode="startsWith">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{p.lastName}" /></f:facet>
+                        <f:facet name="input"><p:inputText  value="#{p.lastName}" style="width:96%"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column headerText="Sex" sortBy="#{p.sex}" filterMatchMode="startsWith">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{p.sex}" /></f:facet>
+                        <f:facet name="input">
+                            <h:selectOneMenu value="#{p.sex}" style="width:100%">
+                                <f:selectItems value="#{sessionController.availableSex}" />
+                            </h:selectOneMenu>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column headerText="Age" sortBy="#{p.age}" filterMatchMode="startsWith">
+                    <h:outputText value="#{p.age}" />
+                </p:column>
+                <p:column headerText="Birth Day" sortBy="#{p.birthDay}" filterMatchMode="startsWith">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{p.birthDay}" /></f:facet>
+                        <f:facet name="input"><p:calendar  value="#{p.birthDay}" mode="inline" /></f:facet>
+                    </p:cellEditor>
+                </p:column>
 
 
-                    <h:outputLabel for="password" value="Password:"/>
-                    <p:password id="password" value="#{userBean.user.password}" required="true" label="password"/>
+                <p:column style="width:32px;text-align: center">
+                    <p:commandButton update="main-table" oncomplete="PF('edit-patient-dlg').show()" icon="ui-icon-search" title="View">
+                        <f:setPropertyActionListener value="#{p}" target="#{sessionController.editPatient}" />
+                    </p:commandButton>
+                </p:column>
 
-                    <p:messages/>
-
-                    <f:facet name="footer">
-                        <p:commandButton value="Login" update="growl " process="@form"
-                                         actionListener="#{sessionController.login}"
-                                         oncomplete="handleLoginRequest(xhr, status, args)"/>
-                        <p:messages/>
-
-                    </f:facet>
-
-                </h:panelGrid>
-
-            </p:dialog>
+                <f:facet name="footer">
+                </f:facet>
+            </p:dataTable>
         </h:form>
+
+       <ui:include src="dialogs/addPatient.xhtml"/>
+       <ui:include src="dialogs/login.xhtml"/>
+       <ui:include src="dialogs/editPatient.xhtml"/>
+       <ui:include src="dialogs/addDrugToDB.xhtml"/>
+
 
     </h:form>
 
