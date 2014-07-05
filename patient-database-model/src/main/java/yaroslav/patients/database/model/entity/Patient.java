@@ -120,4 +120,12 @@ public class Patient {
     public void setLocalId(Integer localId) {
         this.localId = localId;
     }
+
+    public String getLocalIdToString() {
+        return localId.toString();
+    }
+
+    public void setLocalIdToString(String localId) {
+        this.localId = Integer.valueOf(localId);
+    }
 }

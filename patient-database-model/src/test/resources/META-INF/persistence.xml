@@ -3,10 +3,10 @@
 
     <persistence-unit name="PatientsTest" transaction-type="RESOURCE_LOCAL">
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-        <class>yaroslav.selectedPatients.database.model.entity.User</class>
-        <class>yaroslav.selectedPatients.database.model.entity.Diagnose</class>
-        <class>yaroslav.selectedPatients.database.model.entity.Drug</class>
-        <class>yaroslav.selectedPatients.database.model.entity.Patient</class>
+        <class>yaroslav.patients.database.model.entity.User</class>
+        <class>yaroslav.patients.database.model.entity.Diagnose</class>
+        <class>yaroslav.patients.database.model.entity.Drug</class>
+        <class>yaroslav.patients.database.model.entity.Patient</class>
         <properties>
             <!--<property name="javax.persistence.schema-generation-action" value="drop-and-create"/>-->
             <property name="eclipselink.ddl-generation" value="drop-and-create-tables" />
