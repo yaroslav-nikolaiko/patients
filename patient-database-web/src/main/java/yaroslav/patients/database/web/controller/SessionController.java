@@ -44,14 +44,13 @@ public class SessionController extends SessionStructure implements Serializable 
     }
 
     @DialogValidation
-    public void updatePatient(RowEditEvent event) {
-        //Patient patient = (Patient)event.getObject();
-        userService.update(user);
+    public void addDrugToDataBase(){
+        drugService.add(drugBean.getDrug());
     }
 
     @DialogValidation
-    public void addDrugToDataBase(){
-        drugService.add(drugBean.getDrug());
+    public void deletePatient(Patient p){
+        userService.removePatient(user,p);
     }
 
 }

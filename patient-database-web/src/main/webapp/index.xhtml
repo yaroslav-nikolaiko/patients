@@ -96,9 +96,15 @@
 
 
                 <p:column style="width:32px;text-align: center">
-                    <p:commandButton update="main-table @([id$=edit-patient-dlg-id])" oncomplete="PF('edit-patient-dlg').show()" icon="ui-icon-search" title="View">
-                        <f:setPropertyActionListener value="#{p}" target="#{patientSessionController.currentPatient}" />
-                    </p:commandButton>
+                    <p:columnGroup>
+                        <p:commandButton update="main-table @([id$=edit-patient-dlg-id])" oncomplete="PF('edit-patient-dlg').show()" icon="ui-icon-search" title="View">
+                            <f:setPropertyActionListener value="#{p}" target="#{patientSessionController.currentPatient}" />
+                        </p:commandButton>
+
+
+                        <p:commandButton update="main-table" icon="ui-icon-delete" title="Delete" actionListener="#{sessionController.deletePatient(p)}"/>
+                    </p:columnGroup>
+
                 </p:column>
 
                 <f:facet name="footer">
