@@ -50,20 +50,6 @@ public class SessionController extends SessionStructure implements Serializable 
     }
 
     @DialogValidation
-    public  void removeSelectedDrugs(Diagnose diagnose){
-        diagnose.removeDrugs(selectedDrugs);
-        userService.update(user);
-        selectedDrugs = null;
-    }
-
-    @DialogValidation
-    public void addDrugToDiagnose(Diagnose diagnose){
-        diagnose.addDrug(oneFuckingDrugNeedRefactor);
-        oneFuckingDrugNeedRefactor = null;
-        userService.update(user);
-    }
-
-    @DialogValidation
     public void addDrugToDataBase(){
         drugService.add(drugBean.getDrug());
     }

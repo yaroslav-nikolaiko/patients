@@ -11,12 +11,99 @@
 </h:head>
 <h:body>
     <ui:composition>
-        <h:form>
+        <h:form id="edit-patient-form">
+            <p:growl id="growl" sticky="true" showDetail="true" life="3000"/>
+
+            <p:dialog id="edit-patient-dlg-id" header="Edit Patient" widgetVar="edit-patient-dlg" resizable="false">
+                <h:panelGrid columns="2" cellpadding="5">
+                    <h:outputLabel for="firstName" value="First Name:"/>
+                    <p:inputText id="firstName" value="#{patientSessionController.currentPatient.firstName}"
+                                 required="true" label="first name"/>
+
+                    <h:outputLabel for="lastNmae" value="Last Name:"/>
+                    <p:inputText id="lastNmae" value="#{patientSessionController.currentPatient.lastName}"
+                                 required="true" label="last name"/>
+
+                    <h:outputLabel for="sex" value="Sex:"/>
+                    <h:selectOneMenu id="sex" value="#{patientSessionController.currentPatient.sex}" style="width:100%">
+                        <f:selectItems value="#{sessionController.availableSex}"/>
+                    </h:selectOneMenu>
+
+                    <h:outputLabel for="birthday" value="Birth Day:"/>
+                    <p:calendar id="birthday" value="#{patientSessionController.currentPatient.birthDay}" navigator="true"/>
+
+                    <f:facet name="footer">
+                        <p:commandButton value="Add Diagnosis" onclick="PF('add-diagnosis-dlg').show();" />
+                        <p:accordionPanel dynamic="true" value="#{patientSessionController.currentPatient.diagnosises}" var="d">
+                            <p:tab title="#{d.date}">
+                                <p:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                                    <p:outputLabel for="d-date" value="Date: "/>
+                                    <p:calendar id="d-date" value="#{d.date}" required="true"/>
+
+                                    <p:outputLabel for="d-text" value="Text: "/>
+                                    <p:inputTextarea id="d-text" rows="6" cols="33" value="#{d.text}"/>
+
+                                    <p:outputLabel for="d-drugs" value="Drugs: "/>
 
 
+                                    <p:dataTable id="d-drugs" value="#{d.drugs}" var="drug" editable="true"
+                                                 selectionMode="multiple"
+                                                 rowKey="#{drug.name}" selection="#{patientSessionController.selectedDrug}">
+                                        <f:facet name="header">
+
+                                            <p:selectOneMenu value="#{patientSessionController.oneFuckingDrugNeedRefactor}"
+                                                             converter="#{drugConverter}"
+                                                             panelStyle="width:180px" effect="fade" var="dru"
+                                                             style="width:160px" filter="true"
+                                                             filterMatchMode="startsWith"
+                                                             label="Select Drug">
+                                                <p:ajax update="d-drugs"
+                                                        listener="#{patientSessionController.addDrugToDiagnose(d)}"/>
+                                                <f:selectItem noSelectionOption="true" itemLabel="Select Drug"/>
+                                                <f:selectItems value="#{sessionController.availableDrugs}" var="dr"
+                                                               itemValue="#{dr}" itemLabel="#{dr.name}"/>
+                                                <p:column>
+                                                    <h:outputText value="#{dru.name}"/>
+                                                </p:column>
+                                            </p:selectOneMenu>
+
+                                            <p:commandButton value="Remove"
+                                                             rendered="#{patientSessionController.selectedDrug !=null}"
+                                                             actionListener="#{patientSessionController.removeSelectedDrugs(d)}"
+                                                             update="d-drugs"/>
+                                        </f:facet>
+                                        <p:column headerText="Name">
+                                            <h:outputText id="drug-name" value="#{drug.name}"/>
+                                        </p:column>
+                                        <p:column headerText="Description">
+                                            <h:outputText id="drug-desc" value="#{drug.description}"/>
+                                        </p:column>
+
+
+                                    </p:dataTable>
+
+                                </p:panelGrid>
+
+                            </p:tab>
+
+
+                        </p:accordionPanel>
+
+                    </f:facet>
+
+                </h:panelGrid>
+
+                <p:commandButton value="Submit" update="growl @([id$=main-table)" process="@form"
+                                 actionListener="#{patientSessionController.editPatient}"
+                                 oncomplete="handleDialog(xhr, status, args,'edit-patient-dlg' )"/>
+
+
+            </p:dialog>
         </h:form>
 
+    <ui:include src="addDiagnosis.xhtml"/>
     </ui:composition>
+
 
 </h:body>
 </html>

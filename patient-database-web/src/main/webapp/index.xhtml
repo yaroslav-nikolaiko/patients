@@ -42,8 +42,6 @@
 </h:head>
 
 <h:body>
-    <h:form>
-
         <h:form>
             <p:panelGrid columns="3">
                 <p:button value="SignUp" outcome="signUp.xhtml"/>
@@ -53,9 +51,9 @@
         </h:form>
 
         <h:form>
-            <p:dataTable id="main-table" var="p" value="#{sessionController.user.patients}"
-
-                            >
+            <p:dataTable id="main-table" var="p" value="#{sessionController.user.patients}" selectionMode="multiple"
+                         selection="#{sessionController.selectedPatients}" rowKey="#{p.localId}"
+                         filteredValue="#{sessionController.filteredPatients}">
                 <f:facet name="header">
                     Patients List <p/>
                     <p:commandButton value="Add Patient" onclick="PF('add-patient-dlg').show()" immediate="true"/>
@@ -65,40 +63,40 @@
                     <h:outputText value="#{p.localId}" />
                 </p:column>
                 <p:column headerText="Name" sortBy="#{p.firstName}" filterMatchMode="startsWith">
-
+                    <p:cellEditor>
                         <f:facet name="output"><h:outputText value="#{p.firstName}" /></f:facet>
                         <f:facet name="input"><p:inputText  value="#{p.firstName}" style="width:96%"/></f:facet>
-
+                    </p:cellEditor>
                 </p:column>
                 <p:column headerText="Last Name" sortBy="#{p.lastName}" filterMatchMode="startsWith">
-
+                    <p:cellEditor>
                         <f:facet name="output"><h:outputText value="#{p.lastName}" /></f:facet>
                         <f:facet name="input"><p:inputText  value="#{p.lastName}" style="width:96%"/></f:facet>
-
+                    </p:cellEditor>
                 </p:column>
                 <p:column headerText="Sex" sortBy="#{p.sex}" filterMatchMode="startsWith">
-
+                    <p:cellEditor>
                         <f:facet name="output"><h:outputText value="#{p.sex}" /></f:facet>
                         <f:facet name="input">
                             <h:selectOneMenu value="#{p.sex}" style="width:100%">
                                 <f:selectItems value="#{sessionController.availableSex}" />
                             </h:selectOneMenu>
                         </f:facet>
-
+                    </p:cellEditor>
                 </p:column>
                 <p:column headerText="Age" sortBy="#{p.age}" filterMatchMode="startsWith">
                     <h:outputText value="#{p.age}" />
                 </p:column>
                 <p:column headerText="Birth Day" sortBy="#{p.birthDay}" filterMatchMode="startsWith">
-
+                    <p:cellEditor>
                         <f:facet name="output"><h:outputText value="#{p.birthDay}" /></f:facet>
                         <f:facet name="input"><p:calendar  value="#{p.birthDay}" mode="inline" /></f:facet>
-
+                    </p:cellEditor>
                 </p:column>
 
 
                 <p:column style="width:32px;text-align: center">
-                    <p:commandButton update="main-table" oncomplete="PF('edit-patient-dlg').show()" icon="ui-icon-search" title="View">
+                    <p:commandButton update="main-table @([id$=edit-patient-dlg-id])" oncomplete="PF('edit-patient-dlg').show()" icon="ui-icon-search" title="View">
                         <f:setPropertyActionListener value="#{p}" target="#{patientSessionController.currentPatient}" />
                     </p:commandButton>
                 </p:column>
@@ -107,16 +105,12 @@
                 </f:facet>
             </p:dataTable>
 
-
-
         </h:form>
 
+       <ui:include src="dialogs/addPatient.xhtml"/>
        <ui:include src="dialogs/login.xhtml"/>
        <ui:include src="dialogs/editPatient.xhtml"/>
-
-
-
-    </h:form>
+       <ui:include src="dialogs/addDrugToDB.xhtml"/>
 
 </h:body>
 

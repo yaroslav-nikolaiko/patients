@@ -24,9 +24,7 @@ public class SessionStructure implements Serializable {
     User user;
     List<Patient> selectedPatients;
     List<Patient> filteredPatients;
-    Patient editPatient;
-    List<Drug> selectedDrugs;
-    Drug oneFuckingDrugNeedRefactor;
+
 
     public User getUser() {
         return user;
@@ -56,37 +54,6 @@ public class SessionStructure implements Serializable {
         this.filteredPatients = filteredPatients;
     }
 
-    public Patient getEditPatient() {
-        return editPatient;
-    }
-
-    public void setEditPatient(Patient editPatient) {
-        this.editPatient = editPatient;
-    }
-
-    public List<Drug> getSelectedDrug() {
-        return selectedDrugs;
-    }
-
-    public void setSelectedDrug(List<Drug> selectedDrugs) {
-        this.selectedDrugs = selectedDrugs;
-    }
-
-    public List<Drug> getSelectedDrugs() {
-        return selectedDrugs;
-    }
-
-    public void setSelectedDrugs(List<Drug> selectedDrugs) {
-        this.selectedDrugs = selectedDrugs;
-    }
-
-    public Drug getOneFuckingDrugNeedRefactor() {
-        return oneFuckingDrugNeedRefactor;
-    }
-
-    public void setOneFuckingDrugNeedRefactor(Drug oneFuckingDrugNeedRefactor) {
-        this.oneFuckingDrugNeedRefactor = oneFuckingDrugNeedRefactor;
-    }
 
     @Produces
     public List<Drug> getAvailableDrugs(){
